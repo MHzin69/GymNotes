@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="scss/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-... (truncado)" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -38,12 +40,29 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contato</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa-solid fa-user"></i>Login</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    
+    <main>
+    <?php
+        $pagina = $_GET["param"] ?? "home";
 
+        $pagina = "pages/{$pagina}.php";
+        if (file_exists($pagina)) {
+            include $pagina;
+        } else {
+            include "pages/erro.php";
+        }
+
+    ?>
+    </main>
 
 
     <!-- Script do Bootstrap -->

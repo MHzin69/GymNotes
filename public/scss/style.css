@@ -6,6 +6,9 @@ header .navbar {
 header .navbar-brand {
   color: white !important; }
 header .nav-link {
-  color: white !important; }
+  color: white !important;
+  margin: 2px 8px; }
+  header .nav-link i {
+    margin-right: 4px; }
 
 /*# sourceMappingURL=style.css.map */
