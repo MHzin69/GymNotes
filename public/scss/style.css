@@ -1,7 +1,11 @@
 :root {
   --header: #1d1d1d; }
 
-header {
-  background-color: var(--header); }
+header .navbar {
+  background-color: var(--header) !important; }
+header .navbar-brand {
+  color: white !important; }
+header .nav-link {
+  color: white !important; }
 
 /*# sourceMappingURL=style.css.map */

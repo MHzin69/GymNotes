@@ -1,7 +1,15 @@
-:root{
-   --header: #1d1d1d;
+:root {
+  --header: #1d1d1d;
 }
 
-header{
-    background-color: var(--header);
+header {
+  .navbar {
+    background-color: var(--header) !important;
+  }
+  .navbar-brand {
+    color: white !important;
+  }
+  .nav-link {
+    color: white !important;
+  }
 }
