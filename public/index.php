@@ -19,7 +19,7 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <!-- Nome e Logo do site -->
-                <a class="navbar-brand" href="#">Gym Notes</a>
+                <a class="navbar-brand" href="#"><img class="logoNav" src="img/logo/logoGymNotes.png" alt="Gym Notes" title="Home"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">

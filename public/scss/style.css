@@ -5,6 +5,9 @@ header .navbar {
   background-color: var(--header) !important; }
 header .navbar-brand {
   color: white !important; }
+  header .navbar-brand .logoNav {
+    height: 42px;
+    margin-right: 8px; }
 header .nav-link {
   color: white !important;
   margin: 2px 8px; }
