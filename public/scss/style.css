@@ -14,4 +14,19 @@ header .nav-link {
   header .nav-link i {
     margin-right: 4px; }
 
+body {
+  margin: 0;
+  background-color: #1d1d1d;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+.container {
+  margin-top: 32px; }
+
+.bannerIndex {
+  background-color: black;
+  width: 100%; }
+  .bannerIndex h2 {
+    color: white;
+    font-weight: bold; }
+
 /*# sourceMappingURL=style.css.map */
