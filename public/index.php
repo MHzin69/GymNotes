@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<?php
+require_once __DIR__ . '/../src/Controller/PageController.php';
 
+$controller = new PageController();
 
-    
-    <main>
-    <?php
-        $pagina = $_GET["param"] ?? "home";
+// rota vinda pela URL
+$page = $_GET['page'] ?? 'home';
 
-        $pagina = "pages/{$pagina}.php";
-        if (file_exists($pagina)) {
-            include $pagina;
-        } else {
-            include "pages/erro.php";
-        }
-
-    ?>
-    </main>
-
-
-    
-</body>
-
-</html>
+switch ($page) {
+    case 'home':
+        $controller->home();
+        break;
+    default:
+        $controller->erro();
+        break;
+}
