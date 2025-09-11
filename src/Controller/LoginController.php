@@ -45,4 +45,8 @@ class LoginController {
         header("Location: /login");
         exit;
     }
+    public function cadastro() {
+    $this->render('cadastro', ['titulo' => 'Cadastro']);
+}
+
 }
