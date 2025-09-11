@@ -28,7 +28,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(img/Bg-Image.png);
+  background-image: url("../img/BG-image.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   text-align: center;
   margin: 0;
   padding: 0;
