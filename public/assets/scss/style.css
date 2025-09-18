@@ -90,7 +90,7 @@ body {
 .planilhaHome {
   background-color: #1d1d1d;
   padding: 40px 0; }
-  .planilhaHome .tituloPlanilhas {
+  .planilhaHome h2 {
     text-align: center;
     color: #ffffff;
     margin-bottom: 24px; }
