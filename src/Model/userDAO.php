@@ -1,74 +1,76 @@
 <?php
 namespace Src\Model;
 
-require_once __DIR__ . '/database.php';
-require_once __DIR__ . '/User.php';
-
 use PDO;
+use PDOException;
 
 class UserDAO {
     public static function getAll(): array {
-        $conn = Database::connect();
-        $sql = "SELECT id, nome, email FROM usuario";
-        $stmt = $conn->query($sql);
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $users = [];
-        foreach ($rows as $r) {
-            $users[] = User::fromArray($r);
+        try {
+            $stmt = Database::getConnection()->query("SELECT * FROM usuarios");
+            $users = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $users[] = new User($row['id'], $row['nome'], $row['email'], $row['senha']);
+            }
+            return $users;
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar usuários: " . $e->getMessage());
+            return [];
         }
-        return $users;
-    }
-
-    public static function add(User $user): int {
-        $conn = Database::connect();
-        $hashed = null;
-        if ($user->getSenha()) {
-            $hashed = password_hash($user->getSenha(), PASSWORD_DEFAULT);
-        }
-
-        $sql = "INSERT INTO usuario (nome, email, senha) VALUES (:nome, :email, :senha)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue(':nome', $user->getNome());
-        $stmt->bindValue(':email', $user->getEmail());
-        $stmt->bindValue(':senha', $hashed);
-        $stmt->execute();
-
-        return (int)$conn->lastInsertId();
     }
 
     public static function getById(int $id): ?User {
-        $conn = Database::connect();
-        $sql = "SELECT id, nome, email, senha FROM usuario WHERE id = :id LIMIT 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([':id' => $id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? User::fromArray($row) : null;
+        try {
+            $stmt = Database::getConnection()->prepare("SELECT * FROM usuarios WHERE id = ?");
+            $stmt->execute([$id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row ? new User($row['id'], $row['nome'], $row['email'], $row['senha']) : null;
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar usuário: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    public static function create(User $user): bool {
+        try {
+            $stmt = Database::getConnection()->prepare(
+                "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)"
+            );
+            return $stmt->execute([
+                $user->getNome(),
+                $user->getEmail(),
+                password_hash($user->getSenha(), PASSWORD_BCRYPT) // segurança
+            ]);
+        } catch (PDOException $e) {
+            error_log("Erro ao criar usuário: " . $e->getMessage());
+            return false;
+        }
     }
 
     public static function update(User $user): bool {
-        $conn = Database::connect();
-        $fields = "nome = :nome, email = :email";
-        $params = [
-            ':nome' => $user->getNome(),
-            ':email' => $user->getEmail(),
-            ':id' => $user->getId()
-        ];
-
-        if ($user->getSenha()) {
-            $fields .= ", senha = :senha";
-            $params[':senha'] = password_hash($user->getSenha(), PASSWORD_DEFAULT);
+        try {
+            $stmt = Database::getConnection()->prepare(
+                "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?"
+            );
+            return $stmt->execute([
+                $user->getNome(),
+                $user->getEmail(),
+                password_hash($user->getSenha(), PASSWORD_BCRYPT),
+                $user->getId()
+            ]);
+        } catch (PDOException $e) {
+            error_log("Erro ao atualizar usuário: " . $e->getMessage());
+            return false;
         }
-
-        $sql = "UPDATE usuario SET {$fields} WHERE id = :id";
-        $stmt = $conn->prepare($sql);
-        return $stmt->execute($params);
     }
 
     public static function delete(int $id): bool {
-        $conn = Database::connect();
-        $sql = "DELETE FROM usuario WHERE id = :id";
-        $stmt = $conn->prepare($sql);
-        return $stmt->execute([':id' => $id]);
+        try {
+            $stmt = Database::getConnection()->prepare("DELETE FROM usuarios WHERE id = ?");
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            error_log("Erro ao deletar usuário: " . $e->getMessage());
+            return false;
+        }
     }
 }

@@ -5,27 +5,21 @@ use PDO;
 use PDOException;
 
 class Database {
-    private static string $host = "localhost";
-    private static string $db   = "academia";
-    private static string $user = "root";
-    private static string $pass = "";
     private static ?PDO $conn = null;
 
-    public static function connect(): PDO {
+    public static function getConnection(): PDO {
         if (self::$conn === null) {
             try {
-                $dsn = "mysql:host=" . self::$host . ";dbname=" . self::$db . ";charset=utf8";
-                self::$conn = new PDO($dsn, self::$user, self::$pass);
+                self::$conn = new PDO(
+                    "mysql:host=127.0.0.1;port=3306;dbname=gymnotes;charset=utf8",
+                    "root",
+                    ""
+                );
                 self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                self::$conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
-                throw new PDOException("Erro ao conectar ao banco: " . $e->getMessage(), (int)$e->getCode());
+                die("Erro na conexão: " . $e->getMessage());
             }
         }
         return self::$conn;
-    }
-
-    public static function disconnect(): void {
-        self::$conn = null;
     }
 }

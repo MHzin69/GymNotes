@@ -1,16 +1,10 @@
 <?php
-require_once __DIR__ . '/../src/Controller/PageController.php';
 
-$controller = new PageController();
+require_once __DIR__ . '/../src/Controller/UsuariosController.php';
 
-// rota vinda pela URL
-$page = $_GET['page'] ?? 'home';
+use Src\Controller\UsuariosController;
 
-switch ($page) {
-    case 'home':
-        $controller->home();
-        break;
-    default:
-        $controller->erro();
-        break;
+$usuarios = UsuariosController::listar();
+foreach ($usuarios as $u) {
+    echo $u->getNome() . " - " . $u->getEmail() . "<br>";
 }
