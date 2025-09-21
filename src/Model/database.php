@@ -13,7 +13,7 @@ class Database {
                 self::$conn = new PDO(
                     "mysql:host=127.0.0.1;port=3306;dbname=gymnotes;charset=utf8",
                     "root",
-                    "1234" // <-- aqui vai a senha que você configurou
+                    "1234" // senha correta
                 );
                 self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
@@ -23,3 +23,4 @@ class Database {
         return self::$conn;
     }
 }
+
