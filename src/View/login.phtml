@@ -1,3 +1,4 @@
+<?php require_once 'partials/header.phtml'; ?>
 <div class="login-page">
     <div class="login-container d-flex justify-content-center align-items-center vh-100">
         <div class="login-box shadow p-4 rounded">
@@ -9,7 +10,7 @@
                 </div>
             <?php endif; ?>
 
-            <form action="/login/autenticar" method="post" class="d-flex flex-column gap-3">
+            <form action="index.php?page=login" method="post" class="d-flex flex-column gap-3">
                 <div class="form-group">
                     <label for="email">E-mail</label>
                     <input type="email" name="email" id="email" class="form-control" required>
@@ -19,17 +20,12 @@
                     <label for="senha">Senha</label>
                     <input type="password" name="senha" id="senha" class="form-control" required>
                 </div>
-
-                <button type="submit" class="btn btn-dark fw-bold">
-                    Entrar
-                </button>
+                <button type="submit" class="btn btn-dark fw-bold">Entrar</button>
             </form>
 
-            <!-- Link para cadastro -->
             <div class="text-center mt-3">
                 <small>Ainda não tem conta? <a href="?page=cadastro" class="fw-bold">Cadastre-se</a></small>
             </div>
         </div>
     </div>
 </div>
-

@@ -76,16 +76,28 @@ body {
   background-repeat: no-repeat;
   height: 100vh; }
   .login-page .login-container {
+    /* Centraliza a caixa de login na tela */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     backdrop-filter: blur(3px); }
-  .login-page .login-box {
-    background: rgba(70, 67, 67, 0.9);
-    width: 100%;
-    max-width: 400px;
-    border-radius: 12px; }
-    .login-page .login-box h2 {
-      color: #ffffff; }
-    .login-page .login-box label {
-      color: #ffffff; }
+    .login-page .login-container .login-box {
+      background: rgba(70, 67, 67, 0.9);
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      padding: 2rem; }
+      .login-page .login-container .login-box h2 {
+        color: #ffffff; }
+      .login-page .login-container .login-box label {
+        color: #ffffff; }
+
+.form-control {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #fff;
+  color: #333; }
 
 .planilhaHome {
   background-color: #1d1d1d;
@@ -164,5 +176,113 @@ body {
         margin-bottom: 20px; }
       .beneficios .beneficios-container .beneficio p {
         text-align: center; }
+
+.planilhas-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif; }
+  .planilhas-page h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #333; }
+  .planilhas-page .planilhas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px; }
+  .planilhas-page .planilha-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .planilhas-page .planilha-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); }
+    .planilhas-page .planilha-card h2 {
+      font-size: 20px;
+      color: #444;
+      margin-bottom: 10px; }
+    .planilhas-page .planilha-card p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 15px; }
+    .planilhas-page .planilha-card .btn-abrir {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #3b82f6;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: background-color 0.2s; }
+      .planilhas-page .planilha-card .btn-abrir:hover {
+        background-color: #2563eb; }
+  .planilhas-page .btn-nova {
+    display: block;
+    margin: 30px auto 0;
+    padding: 12px 24px;
+    background-color: #10b981;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s; }
+    .planilhas-page .btn-nova:hover {
+      background-color: #059669; }
+  .planilhas-page .exercicios-page {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif; }
+    .planilhas-page .exercicios-page h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #333; }
+    .planilhas-page .exercicios-page .exercicios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px; }
+    .planilhas-page .exercicios-page .exercicio-card {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease; }
+      .planilhas-page .exercicios-page .exercicio-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); }
+      .planilhas-page .exercicios-page .exercicio-card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 12px; }
+      .planilhas-page .exercicios-page .exercicio-card h2 {
+        font-size: 18px;
+        color: #444;
+        margin-bottom: 6px; }
+      .planilhas-page .exercicios-page .exercicio-card p {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px; }
+      .planilhas-page .exercicios-page .exercicio-card .btn-add {
+        display: inline-block;
+        padding: 8px 14px;
+        background-color: #3b82f6;
+        color: #fff;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: background-color 0.2s; }
+        .planilhas-page .exercicios-page .exercicio-card .btn-add:hover {
+          background-color: #2563eb; }
 
 /*# sourceMappingURL=style.css.map */

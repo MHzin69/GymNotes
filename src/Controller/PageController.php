@@ -1,16 +1,18 @@
 <?php
-namespace Src\Controller;
 
 class PageController {
-    public static function home() {
-        return "Página inicial";
+    private function render($view, $data = []) {
+        extract($data);
+        include __DIR__ . '/../View/partials/header.phtml';
+        include __DIR__ . '/../View/' . $view . '.phtml';
+        include __DIR__ . '/../View/partials/footer.phtml';
     }
 
-    public static function sobre() {
-        return "Página sobre";
+    public function home() {
+        $this->render('home', ['titulo' => 'Página Inicial']);
     }
 
-    public static function contato() {
-        return "Página contato";
+    public function erro() {
+        $this->render('erro', ['titulo' => 'Erro']);
     }
 }

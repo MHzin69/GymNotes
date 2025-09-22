@@ -4,7 +4,7 @@ namespace Src\Controller;
 use Src\Model\User;
 use Src\Model\UserDAO;
 
-class UsuariosController {
+class UsuariosController { 
     public static function listar() {
         return UserDAO::getAll();
     }
@@ -32,5 +32,9 @@ class UsuariosController {
     public static function deletar(int $id) {
         return UserDAO::delete($id);
     }
+
+    public static function verPorEmail(string $email): ?User {
+    return UserDAO::getByEmail($email);
+}
 }
  

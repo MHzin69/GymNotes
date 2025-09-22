@@ -1,9 +1,10 @@
+<?php require_once 'partials/header.phtml'; ?>
 <div class="login-page">
     <div class="login-container d-flex justify-content-center align-items-center vh-100">
         <div class="login-box shadow p-4 rounded">
             <h2 class="text-center mb-4">Cadastro</h2>
 
-            <form action="/login/salvarCadastro" method="post" class="d-flex flex-column gap-3">
+            <form action="index.php?page=cadastro" method="post" class="d-flex flex-column gap-3">
                 <div class="form-group">
                     <label for="nome">Nome completo</label>
                     <input type="text" name="nome" id="nome" class="form-control" required>

@@ -103,22 +103,36 @@ body {
   height: 100vh;
 
   .login-container {
+    /* Centraliza a caixa de login na tela */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     backdrop-filter: blur(3px);
-  }
 
-  .login-box {
-    background: rgba(70, 67, 67, 0.9);
-    width: 100%;
-    max-width: 400px;
-    border-radius: 12px;
+    .login-box {
+      background: rgba(70, 67, 67, 0.9);
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      padding: 2rem;
 
-    h2 {
-      color: #ffffff;
-    }
-    label {
-      color: #ffffff;
+      h2 {
+        color: #ffffff;
+      }
+
+      label {
+        color: #ffffff;
+      }
     }
   }
+}
+
+.form-control {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #fff;
+  color: #333;
 }
 .planilhaHome {
   background-color: #1d1d1d;

@@ -7,7 +7,8 @@ use PDOException;
 class UserDAO {
     public static function getAll(): array {
         try {
-            $stmt = Database::getConnection()->query("SELECT * FROM usuarios");
+            // Nome da tabela corrigido para 'Usuario'
+            $stmt = Database::getConnection()->query("SELECT * FROM Usuario");
             $users = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $users[] = new User($row['id'], $row['nome'], $row['email'], $row['senha']);
@@ -21,7 +22,8 @@ class UserDAO {
 
     public static function getById(int $id): ?User {
         try {
-            $stmt = Database::getConnection()->prepare("SELECT * FROM usuarios WHERE id = ?");
+            // Nome da tabela corrigido para 'Usuario'
+            $stmt = Database::getConnection()->prepare("SELECT * FROM Usuario WHERE id = ?");
             $stmt->execute([$id]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             return $row ? new User($row['id'], $row['nome'], $row['email'], $row['senha']) : null;
@@ -33,13 +35,14 @@ class UserDAO {
 
     public static function create(User $user): bool {
         try {
+            // Nome da tabela corrigido para 'Usuario'
             $stmt = Database::getConnection()->prepare(
-                "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)"
+                "INSERT INTO Usuario (nome, email, senha) VALUES (?, ?, ?)"
             );
             return $stmt->execute([
                 $user->getNome(),
                 $user->getEmail(),
-                password_hash($user->getSenha(), PASSWORD_BCRYPT) // segurança
+                password_hash($user->getSenha(), PASSWORD_BCRYPT)
             ]);
         } catch (PDOException $e) {
             error_log("Erro ao criar usuário: " . $e->getMessage());
@@ -49,8 +52,9 @@ class UserDAO {
 
     public static function update(User $user): bool {
         try {
+            // Nome da tabela corrigido para 'Usuario'
             $stmt = Database::getConnection()->prepare(
-                "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?"
+                "UPDATE Usuario SET nome = ?, email = ?, senha = ? WHERE id = ?"
             );
             return $stmt->execute([
                 $user->getNome(),
@@ -66,11 +70,23 @@ class UserDAO {
 
     public static function delete(int $id): bool {
         try {
-            $stmt = Database::getConnection()->prepare("DELETE FROM usuarios WHERE id = ?");
+            // Nome da tabela corrigido para 'Usuario'
+            $stmt = Database::getConnection()->prepare("DELETE FROM Usuario WHERE id = ?");
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
             error_log("Erro ao deletar usuário: " . $e->getMessage());
             return false;
         }
     }
+    public static function getByEmail(string $email): ?User {
+    try {
+        $stmt = Database::getConnection()->prepare("SELECT * FROM Usuario WHERE email = ?");
+        $stmt->execute([$email]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? new User($row['id'], $row['nome'], $row['email'], $row['senha']) : null;
+    } catch (PDOException $e) {
+        error_log("Erro ao buscar usuário por e-mail: " . $e->getMessage());
+        return null;
+    }
+}
 }
