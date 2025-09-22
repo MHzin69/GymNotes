@@ -13,11 +13,26 @@ class ExercicioDAO {
         return $exercicios;
     }
 
-    public static function getById(int $id): ?Exercicio {
-        $stmt = Database::getConnection()->prepare("SELECT * FROM exercicios WHERE id = ?");
-        $stmt->execute([$id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? new Exercicio($row['id'], $row['nome'], $row['descricao']) : null;
+    public static function getById(int $id_exercicio): ?Exercicio {
+        try {
+            $stmt = Database::getConnection()->prepare("SELECT * FROM exercicio WHERE id = ?");
+            $stmt->execute([$id_exercicio]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$row) {
+                return null;
+            }
+
+            return new Exercicio(
+                $row['id'],
+                $row['nm_exercicio'],
+                $row['gp_muscular'],
+                $row['descricao'] // Nome da coluna corrigido
+            );
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar exercício: " . $e->getMessage());
+            return null;
+        }
     }
 
     public static function create(Exercicio $exercicio): bool {
@@ -33,5 +48,24 @@ class ExercicioDAO {
     public static function delete(int $id): bool {
         $stmt = Database::getConnection()->prepare("DELETE FROM exercicios WHERE id = ?");
         return $stmt->execute([$id]);
+    }
+    public static function getByGrupoMuscular(): array {
+        try {
+            $stmt = Database::getConnection()->query("SELECT * FROM exercicio ORDER BY gp_muscular");
+            $exercicios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $exerciciosPorGrupo = [];
+            foreach ($exercicios as $exercicio) {
+                $grupo = $exercicio['gp_muscular'];
+                if (!isset($exerciciosPorGrupo[$grupo])) {
+                    $exerciciosPorGrupo[$grupo] = [];
+                }
+                $exerciciosPorGrupo[$grupo][] = $exercicio;
+            }
+            return $exerciciosPorGrupo;
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar exercícios por grupo muscular: " . $e->getMessage());
+            return [];
+        }
     }
 }

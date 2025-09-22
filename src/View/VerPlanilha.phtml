@@ -1,0 +1,38 @@
+<?php require_once 'partials/header.phtml'; ?>
+<div class="criar-planilha-page">
+    <div class="form-card">
+        <h2 class="text-center mb-4">Planilha: <?= htmlspecialchars($planilha->getNmPlanilha()) ?></h2>
+        
+        <p class="text-center text-muted mb-4"><?= htmlspecialchars($planilha->getDescricao()) ?></p>
+
+        <div class="exercicios-list mt-5">
+            <?php if (!empty($exercicios)): ?>
+                <?php foreach ($exercicios as $exercicio): ?>
+                    <div class="exercicio-item mb-4">
+                        <h4><?= htmlspecialchars($exercicio['nm_exercicio']) ?></h4>
+                        <p>
+                            Séries: **<?= htmlspecialchars($exercicio['series']) ?>** | 
+                            Repetições: **<?= htmlspecialchars($exercicio['repeticoes']) ?>**
+                        </p>
+                        <?php if (!empty($exercicio['carga'])): ?>
+                            <p>Carga: <?= htmlspecialchars($exercicio['carga']) ?></p>
+                        <?php endif; ?>
+                        <?php if (!empty($exercicio['observacoes'])): ?>
+                            <p>Observações: <?= htmlspecialchars($exercicio['observacoes']) ?></p>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-center text-muted">Esta planilha ainda não tem exercícios.</p>
+            <?php endif; ?>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="index.php?page=editarPlanilha&id=<?= htmlspecialchars($planilha->getId()) ?>" class="btn btn-primary">
+                Editar planilha
+            </a>
+            
+        </div>
+    </div>
+</div>
+<?php require_once 'partials/footer.phtml'; ?>

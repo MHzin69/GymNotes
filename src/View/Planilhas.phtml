@@ -1,23 +1,27 @@
-<div class="container my-5 planilhas-page">
-    <h1 class="text-center mb-4">Minhas Planilhas</h1>
+<?php require_once 'partials/header.phtml'; ?>
+<div class="planilhas-container">
+    <div class="my-5 planilhas-page">
+        <h1 class="text-center mb-4">Minhas Planilhas</h1>
 
-    <?php if (!empty($planilhas)): ?>
-        <div class="planilhas-grid">
-            <?php foreach ($planilhas as $planilha): ?>
-                <div class="planilha-card">
-                    <h2><?= htmlspecialchars($planilha->getNmPlanilha()) ?></h2>
-                    <p><?= htmlspecialchars($planilha->getDescricao()) ?></p>
-                    <a href="index.php?page=editarPlanilha&id=<?= $planilha->getId() ?>" class="btn-abrir">
-                        Abrir
-                    </a>
-                </div>
-            <?php endforeach; ?>
+        <?php if (!empty($planilhas)): ?>
+            <div class="planilhas-grid">
+                <?php foreach ($planilhas as $planilha): ?>
+                    <div class="planilha-card">
+                        <h2><?= htmlspecialchars($planilha->getNmPlanilha()) ?></h2>
+                        <p><?= htmlspecialchars($planilha->getDescricao()) ?></p>
+                        <a href="index.php?page=verPlanilha&id=<?= $planilha->getId() ?>" class="btn-abrir">
+                            Abrir
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="text-center text-muted">Você ainda não tem planilhas cadastradas.</p>
+        <?php endif; ?>
+
+        <div class="text-center mt-4">
+            <a href="index.php?page=criarPlanilha" class="btn-nova btn-primary">+ Criar Nova Planilha</a>
         </div>
-    <?php else: ?>
-        <p class="text-center text-muted">Você ainda não tem planilhas cadastradas.</p>
-    <?php endif; ?>
-
-    <div class="text-center mt-4">
-        <a href="index.php?page=criarPlanilha" class="btn btn-primary">+ Criar Nova Planilha</a>
     </div>
 </div>
+<?php require_once 'partials/footer.phtml'; ?>

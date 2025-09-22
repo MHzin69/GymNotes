@@ -1,17 +1,44 @@
 <?php require_once 'partials/header.phtml'; ?>
-<div class="container my-5">
-    <h2>Editar Planilha: <?= htmlspecialchars($planilha->getNmPlanilha()) ?></h2>
-    <form action="index.php?page=salvarEdicao" method="post">
-        <input type="hidden" name="id_planilha" value="<?= htmlspecialchars($planilha->getId()) ?>">
-        <div class="form-group">
-            <label for="nome">Nome da Planilha</label>
-            <input type="text" name="nome" id="nome" class="form-control" value="<?= htmlspecialchars($planilha->getNmPlanilha()) ?>" required>
+<div class="criar-planilha-page">
+    <div class="form-card">
+        <h2 class="text-center mb-4">Editar Planilha: <?= htmlspecialchars($planilha->getNmPlanilha()) ?></h2>
+
+        <form action="index.php?page=salvarEdicao" method="post" class="d-flex flex-column gap-3">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($planilha->getId()) ?>">
+
+            <div class="form-group">
+                <label for="nm_planilha">Nome da Planilha</label>
+                <input type="text" name="nm_planilha" id="nm_planilha" class="form-control"
+                       value="<?= htmlspecialchars($planilha->getNmPlanilha()) ?>" required>
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="descricao">Descrição (Opcional)</label>
+                <textarea name="descricao" id="descricao" class="form-control"><?= htmlspecialchars($planilha->getDescricao()) ?></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4">Salvar Alterações</button>
+        </form>
+
+        <div class="exercicios-list mt-5">
+            <h3 class="mb-3">Exercícios da Planilha</h3>
+            <?php if (!empty($exercicios)): ?>
+                <?php foreach ($exercicios as $exercicio): ?>
+                    <div class="exercicio-item d-flex justify-content-between align-items-center mb-2">
+                        <span><?= htmlspecialchars($exercicio['nm_exercicio']) ?></span>
+                        <a href="index.php?page=deletarItem&id=<?= htmlspecialchars($exercicio['id']) ?>&planilha_id=<?= htmlspecialchars($planilha->getId()) ?>" class="btn btn-danger btn-sm">Excluir</a>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-muted">Esta planilha ainda não tem exercícios.</p>
+            <?php endif; ?>
         </div>
-        <div class="form-group">
-            <label for="descricao">Descrição</label>
-            <textarea name="descricao" id="descricao" class="form-control"><?= htmlspecialchars($planilha->getDescricao()) ?></textarea>
+
+        <div class="mt-4">
+            <a href="index.php?page=listaExercicios&id=<?= htmlspecialchars($planilha->getId()) ?>" class="btn btn-secondary w-100">
+                + Adicionar Exercícios
+            </a>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Salvar</button>
-    </form>
+    </div>
 </div>
 <?php require_once 'partials/footer.phtml'; ?>

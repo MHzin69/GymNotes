@@ -4,20 +4,28 @@ require_once __DIR__ . '/../src/Controller/PageController.php';
 require_once __DIR__ . '/../src/Controller/UsuariosController.php';
 require_once __DIR__ . '/../src/Controller/PlanilhaController.php';
 require_once __DIR__ . '/../src/Controller/DashboardController.php';
+require_once __DIR__ . '/../src/Controller/ItemPlanilhaController.php';
+require_once __DIR__ . '/../src/Controller/ExerciciosController.php';
 require_once __DIR__ . '/../src/Model/Database.php';
 require_once __DIR__ . '/../src/Model/UserDAO.php';
 require_once __DIR__ . '/../src/Model/User.php';
 require_once __DIR__ . '/../src/Model/PlanilhaDAO.php';
 require_once __DIR__ . '/../src/Model/Planilha.php';
+require_once __DIR__ . '/../src/Model/ItemPlanilhaDAO.php';
+require_once __DIR__ . '/../src/Model/ItemPlanilha.php';
+require_once __DIR__ . '/../src/Model/ExercicioDAO.php';
+require_once __DIR__ . '/../src/Model/Exercicio.php';
 
 session_start();
 
-// As declarações 'use' devem vir aqui, após o session_start
 use Src\Controller\PageController;
 use Src\Controller\UsuariosController;
 use Src\Controller\DashboardController;
 use Src\Controller\PlanilhaController;
+use Src\Controller\ItemPlanilhaController;
+use Src\Controller\ExerciciosController;
 use Src\Model\PlanilhaDAO;
+use Src\Model\ItemPlanilhaDAO;
 
 $page = $_GET['page'] ?? 'home';
 $method = $_SERVER['REQUEST_METHOD'];
@@ -86,7 +94,7 @@ switch ($page) {
         $usuarioId = $_SESSION['usuario_id'];
         $controller->index($usuarioId);
         break;
-        
+
     case 'usarPlanilha':
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: index.php?page=login');
@@ -101,36 +109,123 @@ switch ($page) {
             exit;
         }
         break;
-        
+
     case 'criarPlanilha':
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: index.php?page=login');
             exit;
         }
-        $controller = new PlanilhaController();
-        $controller->criar();
+        PlanilhaController::criar();
         break;
-        
+
     case 'salvarPlanilha':
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: index.php?page=login');
             exit;
         }
-        $controller = new PlanilhaController();
-        $controller->salvar($_POST);
+        PlanilhaController::salvar($_POST);
         break;
-    
+
     case 'editarPlanilha':
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: index.php?page=login');
             exit;
         }
         $id_planilha = $_GET['id'] ?? null;
-        $controller = new PlanilhaController();
-        $controller->editar($id_planilha);
+        PlanilhaController::editar($id_planilha);
+        break;
+
+    case 'salvarEdicao':
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        $id_planilha = $_POST['id'] ?? null;
+        if ($id_planilha) {
+            PlanilhaController::atualizar($id_planilha, $_POST);
+            header('Location: index.php?page=planilhas');
+            exit;
+        } else {
+            header('Location: index.php?page=erro');
+            exit;
+        }
+        break;
+
+    case 'deletarItem':
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        $id_item = $_GET['id'] ?? null;
+        $id_planilha = $_GET['planilha_id'] ?? null;
+        if ($id_item && $id_planilha) {
+            ItemPlanilhaController::deletar($id_item);
+            header("Location: index.php?page=editarPlanilha&id={$id_planilha}");
+            exit;
+        } else {
+            header('Location: index.php?page=erro');
+            exit;
+        }
+        break;
+
+    case 'adicionarItem':
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: index.php?page=login');
+        exit;
+    }
+   
+    $planilha_id = $_GET['planilha_id'] ?? null;
+    $exercicio_id = $_GET['exercicio_id'] ?? null;
+    ItemPlanilhaController::adicionar($planilha_id, $exercicio_id);
+    break;
+
+    case 'salvarItemPlanilha':
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        $planilha_id = $_POST['planilha_id'] ?? null;
+        ItemPlanilhaController::salvar($_POST);
+        header("Location: index.php?page=editarPlanilha&id={$planilha_id}");
+        exit;
+        
+    case 'listaExercicios':
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+        $id_planilha = $_GET['id'] ?? null;
+        $controller = new ExerciciosController();
+        $controller->listarPorGrupoMuscular($id_planilha);
         break;
 
     default:
         (new PageController())->erro();
         break;
-}
+        case 'verPlanilha':
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: index.php?page=login');
+        exit;
+    }
+    $id_planilha = $_GET['id'] ?? null;
+    
+
+    $controller = new PlanilhaController();
+    $controller->ver($id_planilha);
+    break;
+    
+    case 'adicionarItem':
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: index.php?page=login');
+        exit;
+    }
+    $planilha_id = $_GET['planilha_id'] ?? null;
+    $exercicio_id = $_GET['exercicio_id'] ?? null;
+    if ($planilha_id && $exercicio_id) {
+        ItemPlanilhaController::adicionar($planilha_id, $exercicio_id);
+    } else {
+        header('Location: index.php?page=erro');
+        exit;
+    }
+    break;
+    }

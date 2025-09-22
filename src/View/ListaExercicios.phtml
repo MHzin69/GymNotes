@@ -1,0 +1,37 @@
+<?php require_once 'partials/header.phtml'; ?>
+<div class="criar-planilha-page">
+    <div class="form-card">
+        <h2 class="text-center mb-4">Adicionar Exercícios</h2>
+        
+        <?php if (!empty($exerciciosPorGrupo)): ?>
+            <?php foreach ($exerciciosPorGrupo as $grupo => $exercicios): ?>
+                <div class="grupo-muscular">
+                    <h3 class="grupo-titulo" onclick="toggleExercicios(this)">
+                        <?= htmlspecialchars($grupo) ?> <span class="arrow">&#9654;</span>
+                    </h3>
+                    <div class="exercicios-lista hidden">
+                        <?php foreach ($exercicios as $exercicio): ?>
+                            <div class="exercicio-item">
+                                <span><?= htmlspecialchars($exercicio['nm_exercicio']) ?></span>
+                                <a href="index.php?page=adicionarItem&planilha_id=<?= htmlspecialchars($id_planilha) ?>&exercicio_id=<?= htmlspecialchars($exercicio['id']) ?>" class="btn-adicionar">
+                                    Adicionar
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="text-center text-muted">Nenhum exercício encontrado.</p>
+        <?php endif; ?>
+    </div>
+</div>
+<?php require_once 'partials/footer.phtml'; ?>
+
+<script>
+    function toggleExercicios(element) {
+        const lista = element.nextElementSibling;
+        lista.classList.toggle('hidden');
+        element.querySelector('.arrow').classList.toggle('rotated');
+    }
+</script>

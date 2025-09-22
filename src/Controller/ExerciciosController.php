@@ -10,4 +10,11 @@ class ExerciciosController {
     public static function criar(array $dados) { return ExercicioDAO::create(new Exercicio(null, $dados['nome'], $dados['descricao'])); }
     public static function atualizar(int $id, array $dados) { return ExercicioDAO::update(new Exercicio($id, $dados['nome'], $dados['descricao'])); }
     public static function deletar(int $id) { return ExercicioDAO::delete($id); }
+
+    public static function listarPorGrupoMuscular(int $id_planilha) {
+        $exerciciosPorGrupo = ExercicioDAO::getByGrupoMuscular();
+        
+        require_once __DIR__ . '/../View/ListaExercicios.phtml';
+    }
 }
+
