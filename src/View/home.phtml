@@ -1,25 +1,28 @@
-<div class="bannerIndex mx-auto ">
-    <h2>Organize seus treinos, evolua seus resultados</h2>
-    <div>
-        <a href="" class="btn btn-lg btn-primary">Comece agora</a>
-        <a href="" class="btn btn-lg btn-primary">Ver planilhas</a>
+<div class="bannerIndex mx-auto">
+        <h2>Organize seus treinos, evolua seus resultados</h2>
+        <div>
+            <a href="index.php?page=criarPlanilha" class="btn btn-lg btn-primary">Comece agora</a>
+            
+            <a href="index.php?page=planilhas" class="btn btn-lg btn-primary">Ver planilhas</a>
+        </div>
     </div>
-</div>
-<div class="planilhaHome">
+
+   <div class="planilhaHome">
     <h2>As melhores planilhas</h2>
     <section class="carrossel">
-        <div class="carrossel-card">
-            <h3>Full Body</h3>
-            <a href="" class="btn btn-lg btn-primary">Usar Agora</a>
-        </div>
-        <div class="carrossel-card">
-            <h3>Upper/Lower</h3>
-            <a href="" class="btn btn-lg btn-primary">Usar Agora</a>
-        </div>
-        <div class="carrossel-card">
-            <h3>Push/Pull/Legs</h3>
-            <a href="" class="btn btn-lg btn-primary">Usar Agora</a>
-        </div>
+        <?php if (!empty($planilhasProntas)): ?>
+            <?php foreach ($planilhasProntas as $plano): ?>
+                <div class="carrossel-card">
+                    <h3><?php echo htmlspecialchars($plano->getNmPlanilha()); ?></h3>
+                    <p class="description-text"><?php echo htmlspecialchars($plano->getDescricao()); ?></p>
+                    <a href="index.php?page=usarPlanilha&id=<?php echo $plano->getId(); ?>" class="btn btn-lg btn-primary">
+                        Usar Agora
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="no-templates-text">Nenhuma planilha pronta encontrada. Tente adicioná-las no banco de dados.</p>
+        <?php endif; ?>
     </section>
 </div>
 

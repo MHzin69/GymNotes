@@ -5,9 +5,8 @@ use Src\Model\PlanilhaDAO;
 
 class DashboardController {
     public function index(int $usuarioId) {
-     
         $planilhas = PlanilhaDAO::getByUsuarioId($usuarioId);
-
-        require_once __DIR__ . '/../../View/Planilhas.phtml';
+        // Caminho corrigido
+        require_once __DIR__ . '/../View/Planilhas.phtml';
     }
 }

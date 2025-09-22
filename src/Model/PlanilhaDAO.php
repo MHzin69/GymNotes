@@ -8,7 +8,7 @@ class PlanilhaDAO {
     // Método para buscar todas as planilhas de um usuário
     public static function getByUsuarioId(int $id_usuario): array {
         try {
-            $stmt = Database::getConnection()->prepare("SELECT * FROM Planilhas WHERE id_usuario = ?");
+            $stmt = Database::getConnection()->prepare("SELECT * FROM planilha WHERE id_usuario = ?");
             $stmt->execute([$id_usuario]);
             $planilhas = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -23,7 +23,7 @@ class PlanilhaDAO {
 
     public static function getById(int $id_planilha): ?Planilha {
         try {
-            $stmt = Database::getConnection()->prepare("SELECT * FROM Planilhas WHERE id_planilha = ?");
+            $stmt = Database::getConnection()->prepare("SELECT * FROM planilha WHERE id_planilha = ?");
             $stmt->execute([$id_planilha]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             return $row ? new Planilha($row['id_planilha'], $row['id_usuario'], $row['nm_planilha'], $row['descricao']) : null;
@@ -42,6 +42,21 @@ class PlanilhaDAO {
             return false;
         }
     }
-
-    // Outros métodos (update, delete) seguiriam a mesma lógica de ajuste
+    
+public static function getTemplates(): array {
+    try {
+        $stmt = Database::getConnection()->prepare("SELECT * FROM planilha WHERE is_template = ?");
+        $stmt->execute([1]);
+        
+        $planilhas = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            // Cria um objeto Planilha a partir dos dados do banco
+            $planilhas[] = new planilha($row['id'], $row['id_usuario'], $row['nm_planilha'], $row['descricao']);
+        }
+        return $planilhas;
+    } catch (PDOException $e) {
+        error_log("Erro ao buscar templates: " . $e->getMessage());
+        return [];
+    }
+}
 }

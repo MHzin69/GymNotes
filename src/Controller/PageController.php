@@ -1,4 +1,7 @@
 <?php
+namespace Src\Controller;
+
+use Src\Model\PlanilhaDAO; // Garanta que esta linha está aqui
 
 class PageController {
     private function render($view, $data = []) {
@@ -9,7 +12,11 @@ class PageController {
     }
 
     public function home() {
-        $this->render('home', ['titulo' => 'Página Inicial']);
+        // Busca as planilhas prontas no banco de dados
+        $planilhasProntas = PlanilhaDAO::getTemplates();
+        
+        // Passa as planilhas para a view
+        $this->render('home', ['planilhasProntas' => $planilhasProntas]);
     }
 
     public function erro() {
